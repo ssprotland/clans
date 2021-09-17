@@ -1,0 +1,101 @@
+help: "clan help\n
+hjkhjkhjk\n
+hjkhjkhjk\n
+"
+clan_deleting: "clan sucsesfuly deleted!"
+name_already_taken: "sory, this name is already taken!"
+clan_sucsesfuly_renamed: "clan sucsesfuly renamed!"
+home_update: "home place has been updated!"
+#invite
+invation_in_clan: "you are invited in clan: "
+click: "Click "
+#accept
+hereA: "here "
+acceptH: "accept"
+#decline
+hereD: "here "
+declineH: "decline"
+
+accept: "to accept the invite\n"
+decline: "to decline the invite\n"
+#ansver on invite
+inviteA: "you accepted invite!"
+inviteD: "you declined invite!"
+#message for owner
+inviteAO: "your invite has been accepted"
+inviteDO: "your invite has been declined"
+#
+you_dont_have_any_invites: "sorry, you dont have any invites"
+#
+playerNull: "sory, cant find player!"
+playerkickedO: "player has been kickied out!"
+playerkicked: "you have been kiced out!"
+#
+clanPvp: "pvp mode for clan changet to: "
+#
+playerLeaveC: "you sucsesfuly leave clan!"
+#
+tp: "teleporting..."
+homeNull: "home not found!"
+done: "done!"
+#
+clanList: "== list af all clans=="
+#
+dontHaveClan: "sory, you dont participate in clan"
+dontOwnClan: "sory, you dont own this clan"
+#info about clan clanname
+info: "info about clan "
+info1: "clan owner: "
+info1_2: "clan co owners:"
+info2: "members:"
+
+info6: "clan friends:"
+info7: "you have declared war to:"
+info8: "war has been declared to you by:"
+
+info3: "pvp enabled: "
+info4: "clan ballance is: "
+info5: "clan has claim: "
+#clan deleting
+needExitClan: "you need to exit from clan first"
+clancreated: "clan sucsesfuly created!"
+needDeleteClan: "you need to delete clan first"
+#
+alreadyInC: "player already participate in clan!"
+inviteSSuc: "invite has been sendet"
+#
+delete: "&6Клан будет &4удален"
+deleteH: "&4Удалить"
+DdeleteH: "&aНе удалять"
+Tdelete: "&Удалить &6клан" 
+TDdelete: "&aНе удалять &6клан"
+#
+deletS: "&6Клан успешно удален"
+delteD: "&6Удаление отменено"
+#
+PNEmoney: "you dont have enought money"
+deposit: "you sucsesfuly deposit money to clan"
+
+CNEmoney: "clan dont have enought money"
+withdraw: "you sucsesfuly withdrawed money from clan"
+#
+NEmoney: "sory, but your clan dont have enought money, you need: "
+#
+Sregion: "claimed sucsesfuly!!"
+NEregion: "your clan dont have claim!"
+regionEXS: "your clan claim already exist!"
+regionEXSERR: "your clan claim already exist!, pls contact with admins!"
+SRegDel: "region sucsesfuly deleted, you got back: "
+#
+
+clanNull: "clan do not exist!"
+Finvite: "your clan recive friendship invite from clan: "
+Fsend: "you send frendship invite!"
+Faccept: " to accept friendship!"
+Fdecline: " to decline friendship!"
+FinvNull: "clan dont have any friendship invites"
+FRemoved: "friendship removed"
+FinvRemoved: "you declined friendship invite"
+Fsuc: "now you are friend with: "
+Edec: "you declare war to: "
+Erem : "you arnt in war now!"

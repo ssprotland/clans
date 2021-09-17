@@ -1,0 +1,10 @@
+main: clans.clans
+name: clans
+version: 0.2
+api-version: 1.16
+prefix: clans
+depend:
+  - PlayerStorageV2
+  - CommandAPI
+  - WorldGuard
+  - PlaceholderAPI

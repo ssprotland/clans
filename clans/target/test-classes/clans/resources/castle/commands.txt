@@ -1,0 +1,35 @@
+/clan help - помощь\n
+/clan list - список всех кланов \n
+/clan delete - удалить текущий клан \n
+/clan sethome - установить точку дома клана \n
+/clan home - телепортироваться в дом клана \n
+/clan invite <player> - пригласить игрока в клан \n
+/clan accept - принять приглашение в клан\n
+/clan deny - отклонить приглашение в клан  \n
+/clan kick <player> - выгнать игрока из клана \n
+/clan kickoff <player> - выгнать игрока из клана \n
+/clan pvp - переключить пвп в клане \n
+/clan create <name> - создать клан \n
+/clan leave - выйти из клана \n
+/clan info [name] - информация о клане \n
+/clan promote <player> - повысить игрока \n
+/clan demote <player> - понизить игрока \n
+\n
+/clan eco - помощь в экономике клана \n
+/clan eco deposit <ammount> - положить деньги на счет клана \n
+/clan eco withdraw <ammount> - снять дене с счета клана \n
+/clan eco balance - посмотреть баланс клана \n
+\n
+/clan claim - создать приват клана \n
+/clan claim remove - убрать приват клана \n
+\n
+/clan relations - помощь по отношениям между кланами \n
+/clan relations friend add <clan> - добавить другой клан в друзья \n
+/clan relations friend remove <clan> - удалить другой клан из друзей \n
+/clan relations friend accept <clan> -  Принять приглашение дружбы другого клана\n
+/clan relations friend decline <clan> - Отклонить приглашение дружбы другого клана\n
+/clan relations enemy add <clan> - Добавить враждебный клан\n
+/clan relations enemy remove <clan> - Удалить враждебный клан\n
+\n
+/clan tile tp - телепортироваться в таил который сейчас захватывается \n
+/clan tile map <close/medium/far> -  получить карту на которой отмечены тайлы (серый - ничейный, светлый - пренодлежит вашему клану, темный - пренадлежит другому клану)\n
