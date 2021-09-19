@@ -15,7 +15,7 @@ public class TileCmd {
         CommandAPICommand tileCmd = new CommandAPICommand("tile");
 
         // teleport to border of capturing tile
-        tileCmd.withSubcommand(new CommandAPICommand("tp").executesPlayer((player, args) -> {
+        tileCmd.withSubcommand(new CommandAPICommand("teleport").withAliases("tp").executesPlayer((player, args) -> {
 
             Tile tile = Capturing.capturingTile;
 

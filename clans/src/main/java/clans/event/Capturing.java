@@ -283,7 +283,7 @@ public class Capturing {
                 timer -= 1;
                 // spawn zombie
                 // every 15 sec
-                if (timer % 15 == 0) {
+                if ((timer % 15 == 0) && addZombie) {
                     debug("zombie spawn");
                     Location zombieLoc = new Location(castleLoc.getWorld(),
                             getRandomNumber(castleLoc.getBlockX() - zombieSpawnRadius,
@@ -291,7 +291,7 @@ public class Capturing {
                             0, getRandomNumber(castleLoc.getBlockZ() - zombieSpawnRadius,
                                     castleLoc.getBlockZ() + zombieSpawnRadius));
                     zombieLoc.setY(
-                            zombieLoc.getWorld().getHighestBlockYAt(zombieLoc.getBlockX(), zombieLoc.getBlockZ())+2);
+                            zombieLoc.getWorld().getHighestBlockYAt(zombieLoc.getBlockX(), zombieLoc.getBlockZ()) + 2);
                     debug("zombie loc", zombieLoc);
                     zombieLoc.getWorld().spawn(zombieLoc, Zombie.class);
 
