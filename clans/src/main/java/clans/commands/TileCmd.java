@@ -43,9 +43,9 @@ public class TileCmd {
             if (rnd == 4) {
                 location.add(0, 0, -TileFactory.tileSize.y);
             }
-            location.add(0.5, 1, 0.5);//to teleport player at block center;
-            location.setY(Bukkit.getWorld(tile.getLocation().world).getHighestBlockYAt((int) location.getX(),
-                    (int) location.getY()));
+            location.add(0.5, 1, 0.5);// to teleport player at block center;
+            location.setY(Bukkit.getWorld(tile.getLocation().world).getHighestBlockYAt(location.getBlockX(),
+                    location.getBlockY()));
             player.teleport(location);
 
         }));

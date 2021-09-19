@@ -23,8 +23,10 @@ import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Zombie;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 
 import clans.clans;
 import clans.clan.Clan;
@@ -47,7 +49,11 @@ public class Capturing {
     private static final int castleSizeX = 11;
     private static final int castleSizeY = 13;
     private static final int firstStageMaxTime = 20 * 60;// 20min in seconds
-    private static final int secondStageMaxTime = 10 * 60;// 30sec
+    private static final int secondStageMaxTime = 10 * 60;// 10 min
+
+    private static final boolean addZombie = true;
+    private static final int zombieSpawnRadius = 10;
+    private static final boolean rememberLastEnterance = true; // "sticky" capturing
 
     private static int timer = firstStageMaxTime;
 
@@ -215,7 +221,7 @@ public class Capturing {
                     bar.setVisible(false);
                     bar.removeAll();
                     this.cancel();
-                    Bukkit.broadcastMessage(ChatColor.GOLD + "Таил достается предыдущему владельцу! ");
+                    Bukkit.broadcastMessage(ChatColor.GOLD + "Таил достается предыдущему владельцу!");
                 }
                 // check if someone is in castle
                 // TO DO:
@@ -264,6 +270,7 @@ public class Capturing {
         bar.setVisible(true);
         // task to update bossbar timer and clan name
         timer = secondStageMaxTime;
+
         new BukkitRunnable() {
             String lastClanName = firstClan.getName();
             Clan capturingClan = firstClan; // clan that capture castle
@@ -274,6 +281,21 @@ public class Capturing {
                 // update timer
                 bar.setProgress((double) timer / (double) secondStageMaxTime);
                 timer -= 1;
+                // spawn zombie
+                // every 15 sec
+                if (timer % 15 == 0) {
+                    debug("zombie spawn");
+                    Location zombieLoc = new Location(castleLoc.getWorld(),
+                            getRandomNumber(castleLoc.getBlockX() - zombieSpawnRadius,
+                                    castleLoc.getBlockX() + zombieSpawnRadius),
+                            0, getRandomNumber(castleLoc.getBlockZ() - zombieSpawnRadius,
+                                    castleLoc.getBlockZ() + zombieSpawnRadius));
+                    zombieLoc.setY(
+                            zombieLoc.getWorld().getHighestBlockYAt(zombieLoc.getBlockX(), zombieLoc.getBlockZ())+2);
+                    debug("zombie loc", zombieLoc);
+                    zombieLoc.getWorld().spawn(zombieLoc, Zombie.class);
+
+                }
                 // if timer run out
                 if (timer <= 0) {
                     // disable BossBar and this task
@@ -282,9 +304,13 @@ public class Capturing {
                     bar.setVisible(false);
                     bar.removeAll();
                     this.cancel();
+                    // check if tile is captured by some clan
+                    if (capturingClan == null) {
+                        Bukkit.broadcastMessage(ChatColor.RED + "Таил не был никем захвачен!");
+                        return;
+                    }
                     // assign tile to capturingClan
                     // if tile was previosly captured by other clan
-
                     if (!capturingClan.Territories().captureTile(tile)) {
                         // uncapture
                         Clan lastClan = clans.clanList.get(tile.getOwner());
@@ -300,7 +326,6 @@ public class Capturing {
                     return;
                 }
                 // assign castle to clan, whos players is presended more than others in castle
-                // TO DO:
                 Iterator<? extends Player> iterator = Bukkit.getOnlinePlayers().iterator();
                 while (iterator.hasNext()) {
 
@@ -323,7 +348,7 @@ public class Capturing {
                 // decide which clan capture the castle
                 String clanName = getLarger(clanlist);
                 // if name are difrent and isn't empty
-                if ((!lastClanName.equals(clanName)) && (!clanName.equals(""))) {
+                if ((!lastClanName.equals(clanName)) && (!clanName.equals("")) && rememberLastEnterance) {
                     debug("capture update!");
                     debug(clanName);
                     // update last name
@@ -333,16 +358,26 @@ public class Capturing {
                     // update title
                     bar.setTitle(ChatColor.GOLD + "Таил был захвачен кланом " + capturingClan.getName()
                             + "! Координаты: " + castleLocation.x + "," + castleLocation.y);
+                } else {
+                    debug("capture update 2!");
+                    debug(clanName);
+                    capturingClan = clans.clanList.get(clanName);
+                    // if no one is in castle
+                    if (capturingClan == null) {
+                        bar.setTitle(ChatColor.GOLD + "Таил свободен! Координаты: " + castleLocation.x + ","
+                                + castleLocation.y);
+                    } else {
+                        // update title
+                        bar.setTitle(ChatColor.GOLD + "Таил был захвачен кланом " + capturingClan.getName()
+                                + "! Координаты: " + castleLocation.x + "," + castleLocation.y);
+                    }
+
                 }
                 // clear calnlist
                 clanlist.clear();
 
             }
         }.runTaskTimer(clans.getInstance(), 0L, 20L);// execute every second
-        // wait until end
-        // remove all stuf
-        // clean up teritory
-        // assign tile to clan
 
     }
 
