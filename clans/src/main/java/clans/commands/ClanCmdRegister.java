@@ -1,13 +1,11 @@
 package clans.commands;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
 
 import org.bukkit.entity.Player;
 
 import clans.clans;
 import dev.jorel.commandapi.CommandAPICommand;
-import dev.jorel.commandapi.arguments.Argument;
 import dev.jorel.commandapi.arguments.PlayerArgument;
 import dev.jorel.commandapi.arguments.StringArgument;
 
@@ -87,8 +85,8 @@ public class ClanCmdRegister {
         });
 
         CommandAPICommand infoCli = new CommandAPICommand("info")
-                .withArguments(new StringArgument("clan")
-                        .replaceSuggestions(infoarg -> (String[]) clans.clanList.keySet().toArray()))
+                .withArguments(
+                        new StringArgument("clan").replaceSuggestions(infoarg -> convert(clans.clanList.keySet())))
                 .executes((sender, args) -> {
                     ClanCmd.info(sender, (String) args[0]);
                 });
@@ -129,5 +127,20 @@ public class ClanCmdRegister {
                 .withSubcommand(tile)// tile
                 .register();
 
+    }
+
+    public static String[] convert(Set<String> setOfString) {
+
+        // Create String[] of size of setOfString
+        String[] arrayOfString = new String[setOfString.size()];
+
+        // Copy elements from set to string array
+        // using advanced for loop
+        int index = 0;
+        for (String str : setOfString)
+            arrayOfString[index++] = str;
+
+        // return the formed String[]
+        return arrayOfString;
     }
 }
