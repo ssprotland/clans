@@ -32,20 +32,20 @@ public class TileCmd {
             int rnd = (int) Math.round((Math.random() * (4 - 1)) + 1);
             //
             if (rnd == 1) {
-                location.add(TileFactory.tileSize.x, 0, 0);
+                location.add(TileFactory.tileSize.x / 2, 0, 0);
             }
             if (rnd == 2) {
-                location.add(-TileFactory.tileSize.x, 0, 0);
+                location.add(-TileFactory.tileSize.x / 2, 0, 0);
             }
             if (rnd == 3) {
-                location.add(0, 0, TileFactory.tileSize.y);
+                location.add(0, 0, TileFactory.tileSize.y / 2);
             }
             if (rnd == 4) {
-                location.add(0, 0, -TileFactory.tileSize.y);
+                location.add(0, 0, -TileFactory.tileSize.y / 2);
             }
             location.add(0.5, 1, 0.5);// to teleport player at block center;
             location.setY(Bukkit.getWorld(tile.getLocation().world).getHighestBlockYAt(location.getBlockX(),
-                    location.getBlockY()));
+                    location.getBlockZ()) + 2);
             player.teleport(location);
 
         }));
