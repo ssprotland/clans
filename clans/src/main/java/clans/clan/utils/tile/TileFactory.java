@@ -58,7 +58,6 @@ public class TileFactory {
         // get tile from "database"
         tile = tiles.get(midPoint);
 
-        // if no one requested this tile before
         if (tile == null) {
             // clans.log("new tile!");
             tile = new Tile();
