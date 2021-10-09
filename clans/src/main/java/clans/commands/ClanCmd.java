@@ -1,5 +1,6 @@
 package clans.commands;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.sk89q.worldedit.IncompleteRegionException;
@@ -663,9 +664,9 @@ public class ClanCmd {
     public static void getMap(Player player, int zoom) {
         // TODO: map coloring relative to clan
         Clan clan = getPlayerClan(player);
-        ItemStack i = new ItemStack(Material.FILLED_MAP, 1);
+        ItemStack map = new ItemStack(Material.FILLED_MAP, 1);
         MapView view = Bukkit.createMap(Bukkit.getServer().getWorlds().get(0));
-        MapMeta mapMeta = (MapMeta) i.getItemMeta();
+        MapMeta mapMeta = (MapMeta) map.getItemMeta();
         mapMeta.setMapView(view);
         switch (zoom) {
             case 1:
@@ -695,12 +696,20 @@ public class ClanCmd {
         view.addRenderer(new MapRender(clan, view));
 
         // set map id
-        // NBTItem nbti = new NBTItem(i);
-        // nbti.setInteger("map", view.getId());
-        // i = nbti.getItem();
-        i.setItemMeta(mapMeta);
-        // i.setDurability((short) view.getId());
-        player.getInventory().setItemInMainHand(i);
+        map.setItemMeta(mapMeta);
+
+        // add map to player hand(and transfer current item in main inventory(or drop it
+        // to the ground))
+        ItemStack itemInHand = player.getInventory().getItemInMainHand();
+        player.getInventory().setItemInMainHand(map);
+        // try to add item back to player
+        HashMap<Integer, ItemStack> exscessiveItem = player.getInventory().addItem(itemInHand);
+
+        // if inventory of player is full, drop item to the ground
+        if (!exscessiveItem.isEmpty()) {
+            player.getWorld().dropItem(player.getLocation(), exscessiveItem.get(0));
+            return;
+        }
     }
 
     static Clan getPlayerOwnClan(Player player) {
