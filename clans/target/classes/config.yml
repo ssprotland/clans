@@ -1,0 +1,9 @@
+maxTileDistance: 10000
+minTileDistance: 10000
+castleSizeX: 11
+castleSizeY: 13
+firstStageMaxTime: 1200
+secondStageMaxTime: 600
+addZombie: true
+zombieSpawnRadius: 10
+rememberLastEnterance: true

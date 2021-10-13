@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileInputStream;
 
 import com.sk89q.worldedit.EditSession;
-import com.sk89q.worldedit.IncompleteRegionException;
 import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.extent.clipboard.Clipboard;

@@ -21,6 +21,7 @@ import clans.clan.utils.Loc2di;
 import clans.clan.utils.tile.TileFactory;
 import clans.commands.ClanCmdRegister;
 import clans.commands.messages;
+import clans.configuration.Loader;
 import clans.event.Capturing;
 import clans.event.Chat;
 import clans.event.pvp;
@@ -41,6 +42,7 @@ public class clans extends JavaPlugin {
     static File folder;
     static File customConfigFile;
     static FileConfiguration customConfig;
+    public static FileConfiguration config;
 
     private Economy econ;
     private Permission perms;
@@ -114,6 +116,8 @@ public class clans extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        Loader.saveConfiguration(config);
+        getInstance().saveConfig();
         Storage.save();
     }
 
@@ -134,6 +138,13 @@ public class clans extends JavaPlugin {
     }
 
     public static void loadSet() {
+        getInstance().saveDefaultConfig();
+        getInstance().saveConfig();
+
+        config = getInstance().getConfig();
+        Loader.loadConfiguration(config);
+
+        
         customConfig = new YamlConfiguration();
         try {
             customConfig.load(customConfigFile);
@@ -392,6 +403,8 @@ public class clans extends JavaPlugin {
         } catch (IOException | InvalidConfigurationException e) {
             e.printStackTrace();
         }
+        
+        getInstance().saveConfig();
     }
 
     private boolean setupEconomy() {

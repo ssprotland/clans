@@ -26,7 +26,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Zombie;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitTask;
 
 import clans.clans;
 import clans.clan.Clan;
@@ -35,6 +34,7 @@ import clans.clan.utils.WEWraper.WorldWrapper;
 import clans.clan.utils.WEWraper.WorldWrapper.MinMax;
 import clans.clan.utils.tile.Tile;
 import clans.clan.utils.tile.TileFactory;
+import clans.configuration.Config;
 import clans.storage.ClanCell;
 import playerstoragev2.PlayerStorage;
 
@@ -42,20 +42,7 @@ public class Capturing {
     // create reapiting task at 6 o'clock
     public static Tile capturingTile;
 
-    // TODO: add loading from file
-    private static final int maxTileDistance = 10000;
-    private static final int minTileDistance = -10000;
-
-    private static final int castleSizeX = 11;
-    private static final int castleSizeY = 13;
-    private static final int firstStageMaxTime = 20 * 60;// 20min in seconds
-    private static final int secondStageMaxTime = 10 * 60;// 10 min
-
-    private static final boolean addZombie = true;
-    private static final int zombieSpawnRadius = 10;
-    private static final boolean rememberLastEnterance = true; // "sticky" capturing
-
-    private static int timer = firstStageMaxTime;
+    private static int timer = Config.firstStageMaxTime;
 
     // use only one boss bar (cuz minecraft stores all created boss bars)
     private static BossBar bar = Bukkit.createBossBar("", BarColor.RED, BarStyle.SOLID);
@@ -94,10 +81,10 @@ public class Capturing {
                 } while (block.getType() == Material.LAVA);
 
                 // create XxY region
-                BlockVector3 p1 = BlockVector3.at(castleLoc.getX() - (castleSizeX / 2), 0,
-                        castleLoc.getZ() - (castleSizeY / 2));
-                BlockVector3 p2 = BlockVector3.at(castleLoc.getX() + (castleSizeX / 2), 255,
-                        castleLoc.getZ() + (castleSizeY / 2));
+                BlockVector3 p1 = BlockVector3.at(castleLoc.getX() - (Config.castleSizeX / 2), 0,
+                        castleLoc.getZ() - (Config.castleSizeY / 2));
+                BlockVector3 p2 = BlockVector3.at(castleLoc.getX() + (Config.castleSizeX / 2), 255,
+                        castleLoc.getZ() + (Config.castleSizeY / 2));
                 castleRegion = new CuboidRegion(BukkitAdapter.adapt(Bukkit.getWorlds().get(0)), p1, p2);
                 // find highest and lowest point in region
                 bounds = WorldWrapper.minMaxOfRegion(castleRegion);
@@ -196,7 +183,7 @@ public class Capturing {
 
         // initiate first stage of capturing process
         // update timer
-        timer = firstStageMaxTime;
+        timer = Config.firstStageMaxTime;
         // create bossbar with tile cords
         bar.setTitle(
                 ChatColor.GOLD + "Таил готов для захвата! Координаты: " + castleLocation.x + "," + castleLocation.y);
@@ -207,13 +194,13 @@ public class Capturing {
         bar.setProgress(1);// full bar
         bar.setVisible(true);
         // update timer
-        timer = firstStageMaxTime;
+        timer = Config.firstStageMaxTime;
         // create task to update bar (timer) until somebody will enter the castle, or
         // until timer runs out
         new BukkitRunnable() {
             @Override
             public void run() {
-                bar.setProgress(((double) timer / (double) firstStageMaxTime));
+                bar.setProgress(((double) timer / (double) Config.firstStageMaxTime));
                 timer -= 1;
                 // if timer run out
                 if (timer <= 0) {
@@ -269,7 +256,7 @@ public class Capturing {
         bar.setProgress(1);// full bar
         bar.setVisible(true);
         // task to update bossbar timer and clan name
-        timer = secondStageMaxTime;
+        timer = Config.secondStageMaxTime;
 
         new BukkitRunnable() {
             String lastClanName = firstClan.getName();
@@ -279,17 +266,17 @@ public class Capturing {
             public void run() {
 
                 // update timer
-                bar.setProgress((double) timer / (double) secondStageMaxTime);
+                bar.setProgress((double) timer / (double) Config.secondStageMaxTime);
                 timer -= 1;
                 // spawn zombie
                 // every 15 sec
-                if ((timer % 15 == 0) && addZombie) {
+                if ((timer % 15 == 0) && Config.addZombie) {
                     debug("zombie spawn");
                     Location zombieLoc = new Location(castleLoc.getWorld(),
-                            getRandomNumber(castleLoc.getBlockX() - zombieSpawnRadius,
-                                    castleLoc.getBlockX() + zombieSpawnRadius),
-                            0, getRandomNumber(castleLoc.getBlockZ() - zombieSpawnRadius,
-                                    castleLoc.getBlockZ() + zombieSpawnRadius));
+                            getRandomNumber(castleLoc.getBlockX() - Config.zombieSpawnRadius,
+                                    castleLoc.getBlockX() + Config.zombieSpawnRadius),
+                            0, getRandomNumber(castleLoc.getBlockZ() - Config.zombieSpawnRadius,
+                                    castleLoc.getBlockZ() + Config.zombieSpawnRadius));
                     zombieLoc.setY(
                             zombieLoc.getWorld().getHighestBlockYAt(zombieLoc.getBlockX(), zombieLoc.getBlockZ()) + 2);
                     debug("zombie loc", zombieLoc);
@@ -348,7 +335,7 @@ public class Capturing {
                 // decide which clan capture the castle
                 String clanName = getLarger(clanlist);
                 // if name are difrent and isn't empty
-                if ((!lastClanName.equals(clanName)) && (!clanName.equals("")) && rememberLastEnterance) {
+                if ((!lastClanName.equals(clanName)) && (!clanName.equals("")) && Config.rememberLastEnterance) {
                     debug("capture update!");
                     debug(clanName);
                     // update last name
@@ -400,23 +387,23 @@ public class Capturing {
     }
 
     static void debug(Location loc) {
-        clans.log(loc.getX() + "|" + loc.getY() + "|" + loc.getZ());
+        //clans.log(loc.getX() + "|" + loc.getY() + "|" + loc.getZ());
     }
 
     static void debug(String msg) {
-        clans.log(msg);
+      //  clans.log(msg);
     }
 
     static void debug(String msg, int num) {
-        clans.log(msg + num);
+       // clans.log(msg + num);
     }
 
     static void debug(String prefix, Location loc) {
-        clans.log(prefix + loc.getX() + "|" + loc.getY() + "|" + loc.getZ());
+        //clans.log(prefix + loc.getX() + "|" + loc.getY() + "|" + loc.getZ());
     }
 
     static void debug(Loc2di loc) {
-        clans.log(loc.x + "|" + loc.y);
+        //clans.log(loc.x + "|" + loc.y);
     }
 
     static Clan getPlayerClan(Player player, Boolean printmsg) {
@@ -440,8 +427,8 @@ public class Capturing {
         Location tileLoc;
         // find location of tile that will be enought far away from spawn point
         do {
-            tileLoc = new Location(spawnpoint.getWorld(), getRandomNumber(minTileDistance, maxTileDistance), 0d,
-                    getRandomNumber(minTileDistance, maxTileDistance));
+            tileLoc = new Location(spawnpoint.getWorld(), getRandomNumber(Config.minTileDistance, Config.maxTileDistance), 0d,
+                    getRandomNumber(Config.minTileDistance, Config.maxTileDistance));
         } while (spawnpoint.distance(tileLoc) < 10000);
 
         debug(tileLoc);
