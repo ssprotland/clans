@@ -31,6 +31,7 @@ import clans.clans;
 import clans.clan.Clan;
 import clans.clan.utils.Loc2di;
 import clans.clan.utils.map.MapRender;
+import clans.configuration.Loader;
 import clans.storage.ClanCell;
 
 import net.md_5.bungee.api.ChatColor;
@@ -341,6 +342,7 @@ public class ClanCmd {
 
     public static void mload(CommandSender sender) {
         clans.loadSet();
+        Loader.loadConfiguration(clans.getInstance().getConfig());
     }
 
     // load data

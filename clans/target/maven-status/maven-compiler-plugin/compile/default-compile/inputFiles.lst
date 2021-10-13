@@ -1,7 +1,6 @@
 h:\spigot\plugins\clans\clans\src\main\java\clans\commands\EcoCmd.java
 h:\spigot\plugins\clans\clans\src\main\java\clans\commands\messages.java
 h:\spigot\plugins\clans\clans\src\main\java\clans\commands\TestCmd.java
-h:\spigot\plugins\clans\clans\src\main\java\clans\storage\ClanLoader.java
 h:\spigot\plugins\clans\clans\src\main\java\clans\clans.java
 h:\spigot\plugins\clans\clans\src\main\java\clans\clan\utils\Loc2di.java
 h:\spigot\plugins\clans\clans\src\main\java\clans\clan\Clan.java
@@ -26,6 +25,8 @@ h:\spigot\plugins\clans\clans\src\main\java\clans\commands\ClanCmdRegister.java
 h:\spigot\plugins\clans\clans\src\main\java\clans\Storage.java
 h:\spigot\plugins\clans\clans\src\main\java\clans\commands\ClanCmd.java
 h:\spigot\plugins\clans\clans\src\main\java\clans\commands\Control.java
+h:\spigot\plugins\clans\clans\src\main\java\clans\configuration\Loader.java
 h:\spigot\plugins\clans\clans\src\main\java\clans\clan\Territories.java
 h:\spigot\plugins\clans\clans\src\main\java\clans\event\pvp.java
 h:\spigot\plugins\clans\clans\src\main\java\clans\commands\ClaimCmd.java
+h:\spigot\plugins\clans\clans\src\main\java\clans\configuration\Config.java
