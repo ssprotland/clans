@@ -44,6 +44,6 @@ public class Loader {
                 e.printStackTrace();
             }
         }
-        
+        clans.getInstance().saveConfig();
     }
 }
