@@ -94,11 +94,10 @@ public class WorldWrapper {
         RegionManager regions = clans.regContainer.get(world);
         // check if region already exist
         ProtectedRegion claim = regions.getRegion(name);
-        // remove if exist
+        // return if exist
         if (claim != null) {
-            regions.removeRegion(claim.getId());
+            return claim;
         }
-
         // claim
         claim = new ProtectedCuboidRegion(name, region.getPos1(), region.getPos2());
         // save
