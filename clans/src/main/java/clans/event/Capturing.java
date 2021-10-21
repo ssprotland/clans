@@ -3,6 +3,7 @@ package clans.event;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Random;
 import java.util.Map.Entry;
 
 import com.sk89q.worldedit.EditSession;
@@ -382,28 +383,30 @@ public class Capturing {
         return largest;
     }
 
+    private static Random r = new Random();
+
     static double getRandomNumber(int min, int max) {
-        return (Math.random() * (max - min)) + min;
+        return (r.nextDouble() * (max - min)) + min;
     }
 
     static void debug(Location loc) {
-        //clans.log(loc.getX() + "|" + loc.getY() + "|" + loc.getZ());
+        // clans.log(loc.getX() + "|" + loc.getY() + "|" + loc.getZ());
     }
 
     static void debug(String msg) {
-      //  clans.log(msg);
+        // clans.log(msg);
     }
 
     static void debug(String msg, int num) {
-       // clans.log(msg + num);
+        // clans.log(msg + num);
     }
 
     static void debug(String prefix, Location loc) {
-        //clans.log(prefix + loc.getX() + "|" + loc.getY() + "|" + loc.getZ());
+        // clans.log(prefix + loc.getX() + "|" + loc.getY() + "|" + loc.getZ());
     }
 
     static void debug(Loc2di loc) {
-        //clans.log(loc.x + "|" + loc.y);
+        // clans.log(loc.x + "|" + loc.y);
     }
 
     static Clan getPlayerClan(Player player, Boolean printmsg) {
@@ -427,7 +430,8 @@ public class Capturing {
         Location tileLoc;
         // find location of tile that will be enought far away from spawn point
         do {
-            tileLoc = new Location(spawnpoint.getWorld(), getRandomNumber(Config.minTileDistance, Config.maxTileDistance), 0d,
+            tileLoc = new Location(spawnpoint.getWorld(),
+                    getRandomNumber(Config.minTileDistance, Config.maxTileDistance), 0d,
                     getRandomNumber(Config.minTileDistance, Config.maxTileDistance));
         } while (spawnpoint.distance(tileLoc) < 10000);
 
