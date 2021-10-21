@@ -89,9 +89,8 @@ public class Storage {
                     loc.x = (int) cord.get("x");
                     loc.y = (int) cord.get("y");
                     loc.world = (String) cord.get("world");
-                    tilesLoc.add(loc);
+                    clan.Territories().captureTile(loc);
                 }
-                clan.Territories().setTilesCords(tilesLoc);
             }
             // init territories and register tiles in storage (TileFactory)
             clan.Territories().init();

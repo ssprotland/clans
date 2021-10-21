@@ -46,7 +46,7 @@ public class Territories {
 
     public boolean captureTile(Loc2di location) {
         Tile tile = TileFactory.getTile(location);
-        // tile is already owned by someone else
+        // if tile is already owned by someone else
         if (!tile.getOwner().equals("")) {
             return false;
         }
