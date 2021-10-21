@@ -664,7 +664,7 @@ public class ClanCmd {
     }
 
     public static void getMap(Player player, int zoom) {
-        // TODO: map coloring relative to clan
+        //- TODO: map coloring relative to clan
         Clan clan = getPlayerClan(player);
         ItemStack map = new ItemStack(Material.FILLED_MAP, 1);
         MapView view = Bukkit.createMap(Bukkit.getServer().getWorlds().get(0));

@@ -74,6 +74,13 @@ public class clans extends JavaPlugin {
         // load message file
         initSet();
         loadSet();
+        //load configuration
+        saveDefaultConfig();
+        config = getConfig();
+        Loader.loadConfiguration(config);
+        Loader.saveConfiguration(config);
+       
+
         // register commands
         ClanCmdRegister.register();
         // register events
@@ -116,8 +123,6 @@ public class clans extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        Loader.saveConfiguration(config);
-        getInstance().saveConfig();
         Storage.save();
     }
 
@@ -138,12 +143,6 @@ public class clans extends JavaPlugin {
     }
 
     public static void loadSet() {
-        getInstance().saveDefaultConfig();
-        getInstance().saveConfig();
-
-        config = getInstance().getConfig();
-        Loader.loadConfiguration(config);
-
         
         customConfig = new YamlConfiguration();
         try {
@@ -404,7 +403,7 @@ public class clans extends JavaPlugin {
             e.printStackTrace();
         }
         
-        getInstance().saveConfig();
+        getInstance().saveDefaultConfig();
     }
 
     private boolean setupEconomy() {
