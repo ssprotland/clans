@@ -1,5 +1,7 @@
 package clans.clan.utils;
 
+import java.util.Objects;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
@@ -34,29 +36,17 @@ public class Loc2di {
 
     @Override
     public int hashCode() {
-        return x + y + world.hashCode();
+        return Objects.hash(x, y, world);
     }
 
     @Override
     public boolean equals(Object o) {
-
-        // If the object is compared with itself then return true
-        if (o == this) {
+        if (o == this)
             return true;
-        }
-
-        /*
-         * Check if o is an instance of Loc2di or not "null instanceof [type]" also
-         * returns false
-         */
         if (!(o instanceof Loc2di)) {
             return false;
         }
-
-        // typecast o to Loc2di so that we can compare data members
-        Loc2di c = (Loc2di) o;
-
-        // Compare the data members and return accordingly
-        return (x == c.x) && (y == c.y) && (world.equals(c.world));
+        Loc2di loc2di = (Loc2di) o;
+        return x == loc2di.x && y == loc2di.y && Objects.equals(world, loc2di.world);
     }
 }

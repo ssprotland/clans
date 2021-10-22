@@ -48,11 +48,12 @@ public class Territories {
         Tile tile = TileFactory.getTile(location);
         // if tile is already owned by someone else
         if (!tile.getOwner().equals("")) {
+            clans.debug("already owned!");
             return false;
         }
         tile.capture(clan.getName());
         tilesCord.add(tile.getLocation());
-        clans.log("captured by " + clan.getName() + ", x:" + tile.getLocation().x + ", y:" + tile.getLocation().y);
+        clans.debug("captured by " + clan.getName() + ", x:" + tile.getLocation().x + ", y:" + tile.getLocation().y);
         // captured by test, x:10, y:10
         return true;
     }
@@ -60,19 +61,22 @@ public class Territories {
     public boolean captureTile(Tile tile) {
         // tile is already owned by someone else
         if (!tile.getOwner().equals("")) {
+            clans.debug("already owned!");
             return false;
         }
-
+        clans.debug("sucsesful capturing");
         tile.capture(clan.getName());
         tilesCord.add(tile.getLocation());
         return true;
     }
 
     public void clearTileOwner(Loc2di location) {
+        clans.debug("contains loc" + tilesCord.contains(location));
+        boolean result = tilesCord.remove(location);
 
-        tilesCord.remove(location);
+        clans.debug("clearTileOwner: " + result);
+
         Tile tile = TileFactory.getTile(location);
         tile.setOwner("");
     }
-
 }

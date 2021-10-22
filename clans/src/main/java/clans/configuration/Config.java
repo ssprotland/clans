@@ -3,6 +3,8 @@ package clans.configuration;
 public class Config {
     public static int maxTileDistance = 10000;
     public static int minTileDistance = -10000;
+    public static int distanceToSpawnPoint = 1000;
+    public static int maxHeightDifference = 3;
 
     public static int castleSizeX = 11;
     public static int castleSizeY = 13;

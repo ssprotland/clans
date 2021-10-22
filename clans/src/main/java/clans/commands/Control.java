@@ -8,7 +8,7 @@ public class Control {
 
         CommandAPICommand control = new CommandAPICommand("control").withAliases("ctrl")
                 .withPermission(CommandPermission.OP).executes((sender, args) -> {
-                    sender.sendMessage("mload- load messages");
+                    sender.sendMessage("mload- load messages and config");
                     sender.sendMessage("dload- load clan data");
                     sender.sendMessage("save - save clan data");
                 });

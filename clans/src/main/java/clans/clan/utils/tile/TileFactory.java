@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import org.bukkit.Bukkit;
 
+import clans.clans;
 import clans.clan.utils.Loc;
 import clans.clan.utils.Loc2di;
 
@@ -50,16 +51,16 @@ public class TileFactory {
         midPoint.x = (int) (p1.x + p2.x) / 2;
         midPoint.y = (int) (p1.y + p2.y) / 2;
 
-        // clans.log(midPoint.world);
-        // clans.log(midPoint.x + "|" + midPoint.y);
-        // clans.log(p1.x + "|" + p1.y);
-        // clans.log(p2.x + "|" + p2.y);
-        // clans.log(Integer.toString(midPoint.hashCode()));
+        clans.debug("world: " + midPoint.world);
+        clans.debug("midpoint:" + midPoint.x + "|" + midPoint.y);
+        clans.debug("p1: " + p1.x + "|" + p1.y);
+        clans.debug("p2: " + p2.x + "|" + p2.y);
+
         // get tile from "database"
         tile = tiles.get(midPoint);
 
         if (tile == null) {
-            // clans.log("new tile!");
+            clans.debug("new tile!");
             tile = new Tile();
             tile.owner = "";
         }

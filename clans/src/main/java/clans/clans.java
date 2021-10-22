@@ -74,12 +74,11 @@ public class clans extends JavaPlugin {
         // load message file
         initSet();
         loadSet();
-        //load configuration
+        // load configuration
         saveDefaultConfig();
         config = getConfig();
         Loader.loadConfiguration(config);
         Loader.saveConfiguration(config);
-       
 
         // register commands
         ClanCmdRegister.register();
@@ -100,7 +99,7 @@ public class clans extends JavaPlugin {
         }
 
         // add testing tiles
-     
+
         Capturing.init();
 
     }
@@ -130,6 +129,10 @@ public class clans extends JavaPlugin {
         Bukkit.getLogger().info("[clans] " + str);
     }
 
+    public static void debug(String str) {
+        //Bukkit.getLogger().info("[clans][debug] " + str);
+    }
+
     // public static Clan getClan(String name) {
     // Clan clan = clanList.get(name);
     // if (clan == null) {
@@ -143,7 +146,7 @@ public class clans extends JavaPlugin {
     }
 
     public static void loadSet() {
-        
+
         customConfig = new YamlConfiguration();
         try {
             customConfig.load(customConfigFile);
@@ -402,7 +405,7 @@ public class clans extends JavaPlugin {
         } catch (IOException | InvalidConfigurationException e) {
             e.printStackTrace();
         }
-        
+
         getInstance().saveDefaultConfig();
     }
 

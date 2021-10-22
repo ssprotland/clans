@@ -1,5 +1,6 @@
 package clans.event;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -44,11 +45,13 @@ public class Capturing {
     public static Tile capturingTile;
 
     private static int timer = Config.firstStageMaxTime;
+    private static Random r = new Random();
 
     // use only one boss bar (cuz minecraft stores all created boss bars)
     private static BossBar bar = Bukkit.createBossBar("", BarColor.RED, BarStyle.SOLID);
 
     public static void init() {
+        r.setSeed(System.currentTimeMillis());
         scheduleRepeatAtTime(clans.getInstance(), new Runnable() {
             public void run() {
                 capturing();
@@ -61,16 +64,20 @@ public class Capturing {
         boolean newTerritory = true;
         // start tile capturing event
         // find tile to capture
-        Location tileLoc = findTileLoctaion();
-
-        Tile tile = TileFactory.getTile(new Loc2di(tileLoc));
+        Tile tile;
         // find place where to spawn castle
-        Location castleLoc = tile.getLocation().toLocation();
+        Location castleLoc;
         MinMax bounds;
         CuboidRegion castleRegion;
         ProtectedRegion castleClaim;
         int scattering = 10;// how far away from midpoint of tile castle can spawn
         do {
+            // generate tile
+            tile = TileFactory.getTile(new Loc2di(findTileLoctaion()));
+            // find place where to spawn castle
+            castleLoc = tile.getLocation().toLocation();
+
+            int maxHeightDifference = Config.maxHeightDifference - 1;
             // find apropriate place (low diffrence in min to max distance and no lava)
             do {
                 Block block;
@@ -89,19 +96,26 @@ public class Capturing {
                 castleRegion = new CuboidRegion(BukkitAdapter.adapt(Bukkit.getWorlds().get(0)), p1, p2);
                 // find highest and lowest point in region
                 bounds = WorldWrapper.minMaxOfRegion(castleRegion);
-            } while ((bounds.diffrence() > 10));
+                maxHeightDifference++;// increase chance of finding place
+            } while ((bounds.diffrence() > maxHeightDifference));
             // define private
             castleRegion.expand(BlockVector3.at(0, 255, 0), BlockVector3.at(0, -255, 0));
             String name = "tile_" + tile.getLocation().x + "," + tile.getLocation().y; // tile:8,12
 
             if (WorldWrapper.doesRegionExist(castleRegion.getWorld(), name)) {
+                debug("region exist!");
                 castleClaim = WorldWrapper.defineProtectedRegion(castleRegion.getWorld(), name, castleRegion);
+                // calculate new clastle location
+                // (max+min)/2
+                castleLoc = BukkitAdapter.adapt(BukkitAdapter.adapt(castleRegion.getWorld()),
+                        castleClaim.getMaximumPoint().add(castleClaim.getMinimumPoint()).divide(2));
                 newTerritory = false;
                 break;
+            } else {
+                castleClaim = WorldWrapper.defineProtectedRegion(castleRegion.getWorld(), name, castleRegion);
             }
-            castleClaim = WorldWrapper.defineProtectedRegion(castleRegion.getWorld(), name, castleRegion);
-            // while castle region overlap another region
 
+            // while castle region overlap another region
         } while (WorldWrapper.regionContainsRegions(castleRegion.getWorld(), castleClaim));
         // debug("region ok!");
         // create final variable
@@ -114,6 +128,7 @@ public class Capturing {
         castleClaim.setFlag(Flags.BLOCK_PLACE, State.DENY);
         castleClaim.setFlag(Flags.USE, State.ALLOW);
         if (newTerritory) {
+            debug("new teritory!");
             // clean up territory and make platform
             try (EditSession editSession = WorldEdit.getInstance().newEditSession(castleRegion.getWorld())) {
 
@@ -143,6 +158,8 @@ public class Capturing {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            debug("castle loc: ",
+                    BukkitAdapter.adapt(BukkitAdapter.adapt(castleRegion.getWorld()), castleRegion.getMinimumPoint()));
 
             WorldWrapper.pasteFromFile("castle/castle.schem", castleRegion.getMinimumPoint().withY(bounds.mid() + 1),
                     castleRegion.getWorld());
@@ -300,9 +317,14 @@ public class Capturing {
                     // assign tile to capturingClan
                     // if tile was previosly captured by other clan
                     if (!capturingClan.Territories().captureTile(tile)) {
+                        clans.debug("already captured");
                         // uncapture
                         Clan lastClan = clans.clanList.get(tile.getOwner());
-                        lastClan.Territories().clearTileOwner(castleLocation);
+
+                        debug(lastClan.getName());
+                        debug(lastClan.Territories().getTilesCords());
+
+                        lastClan.Territories().clearTileOwner(tile.getLocation());
                         // something is WERY wrong
                         if (!capturingClan.Territories().captureTile(tile)) {
                             Bukkit.broadcastMessage("Произоашла ошибка. Пожалуйста, сообщите об этом администраторам!");
@@ -383,30 +405,34 @@ public class Capturing {
         return largest;
     }
 
-    private static Random r = new Random();
-
     static double getRandomNumber(int min, int max) {
         return (r.nextDouble() * (max - min)) + min;
     }
 
     static void debug(Location loc) {
-        // clans.log(loc.getX() + "|" + loc.getY() + "|" + loc.getZ());
+        clans.debug(loc.getX() + "|" + loc.getY() + "|" + loc.getZ());
+    }
+
+    static void debug(ArrayList<Loc2di> locations) {
+        locations.forEach(location -> {
+            debug(location);
+        });
     }
 
     static void debug(String msg) {
-        // clans.log(msg);
+        clans.debug(msg);
     }
 
     static void debug(String msg, int num) {
-        // clans.log(msg + num);
+        clans.debug(msg + num);
     }
 
     static void debug(String prefix, Location loc) {
-        // clans.log(prefix + loc.getX() + "|" + loc.getY() + "|" + loc.getZ());
+        clans.debug(prefix + loc.getX() + "|" + loc.getY() + "|" + loc.getZ());
     }
 
     static void debug(Loc2di loc) {
-        // clans.log(loc.x + "|" + loc.y);
+        clans.debug(loc.x + "|" + loc.y + "|" + loc.world);
     }
 
     static Clan getPlayerClan(Player player, Boolean printmsg) {
@@ -433,11 +459,10 @@ public class Capturing {
             tileLoc = new Location(spawnpoint.getWorld(),
                     getRandomNumber(Config.minTileDistance, Config.maxTileDistance), 0d,
                     getRandomNumber(Config.minTileDistance, Config.maxTileDistance));
-        } while (spawnpoint.distance(tileLoc) < 10000);
+        } while (spawnpoint.distance(tileLoc) < Config.distanceToSpawnPoint);
 
         debug(tileLoc);
         return tileLoc;
-
     }
 
     // pay money to each clan
