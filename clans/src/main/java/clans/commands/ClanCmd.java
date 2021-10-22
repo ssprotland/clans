@@ -342,6 +342,7 @@ public class ClanCmd {
 
     public static void mload(CommandSender sender) {
         clans.loadSet();
+        clans.getInstance().reloadConfig();
         Loader.loadConfiguration(clans.getInstance().getConfig());
     }
 
