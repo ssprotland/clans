@@ -6,7 +6,6 @@ import java.io.IOException;
 
 import java.nio.charset.Charset;
 import java.nio.file.Files;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,14 +45,12 @@ public class Storage {
 
             List<String> members = json.getStringList("members");
             for (String member : members) {
-                clans.log(member);
-                clan.addMemberL(member);
+                clan.addMember(member);
             }
 
             List<String> coowners = json.getStringList("coOwners");
             for (String coowner : coowners) {
-                clans.log(coowner);
-                clan.addcoownerL(coowner);
+                clan.addCoOwner(coowner);
             }
 
             json.setPathPrefix(name + ".home.location");// !!!!!!!!!!!!!!!!!!!!!
@@ -77,12 +74,10 @@ public class Storage {
             clan.Relations().setEnemysThis(json.getStringList("angryToThis"));
 
             json.setPathPrefix(name + ".territories");// !!!!!!!!!!!!!!!!!!!!!
-            ArrayList<Loc2di> tilesLoc = new ArrayList<>();
             // get json list that contains locations of each territory that is under
             // controll of this clan
             List<?> cords = json.getList("tilesCord");
             if (!cords.isEmpty()) {
-                clans.log(cords.get(0).getClass().getName());
                 for (Object crd : cords) {
                     HashMap<String, Object> cord = (HashMap<String, Object>) crd;
                     Loc2di loc = new Loc2di();
