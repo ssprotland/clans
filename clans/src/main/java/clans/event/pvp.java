@@ -41,7 +41,6 @@ public class pvp implements Listener {
                 }
                 // check if players has the same clan
                 if (!defenderC.member.equals(damagerC.member)) {
-                    // TODO: check if in the same aliance
                     return;
                 }
                 // get clan
